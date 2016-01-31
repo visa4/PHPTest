@@ -1,0 +1,84 @@
+<?php
+/** @var $form \Zend\Form\Form */
+    $form->setAttribute('autocomplete', 'off');
+    $form->prepare();
+
+    $openTemplateError = '<div class="help-block"><div class="alert alert-danger" role="alert">';
+    $closeTemplateError = '</div></div>';
+    $this->formElementErrors()
+        ->setMessageOpenFormat($openTemplateError)
+        ->setMessageCloseString($closeTemplateError);
+?>
+
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="col-md-12">
+        <strong>Create product</strong>
+    </div>
+</div>
+
+<div class="row">
+    <?php echo $this->form()->openTag($form); ?>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Name</label>
+                <?php $element = $form->get('name')->setAttributes(['class' => 'form-control']); ?>
+                <?= $this->formElement($element); ?>
+                <?= $this->formElementErrors($element); ?>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <?php $element = $form->get('description')->setAttributes(['class' => 'form-control']); ?>
+                <?= $this->formElement($element); ?>
+                <?= $this->formElementErrors($element); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Image</label>
+                <?php $element = $form->get('image')->setAttributes(['class' => 'form-control']); ?>
+                <?= $this->formFile($element); ?>
+                <?= $this->formElementErrors($element); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group" id="tags">
+                <div class="row" style="margin-bottom: 5px;">
+                    <div class="col-md-10">
+                        <label>Tags</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div onclick="addTags()" class="btn btn-primary">Add&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                </div>
+                <?php if ($this->tags) : ?>
+                    <?= $this->partial('application/index/partial/tags',['tags' => $this->tags]); ?>
+                <?php endif; ?>
+            </div>
+            <?php if ($this->isPost  && count($this->tags) == 0) : ?>
+                <div class="form-group" id="alertCounTag" >
+                        <div class="alert alert-danger" role="alert">Must be add almost one tag</div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    <?php echo $this->form()->closeTag(); ?>
+</div>
+<script>
+    function addTags() {
+
+        $( "#alertCounTag" ).remove();
+        tagContainer = $( "#tags" );
+        index = $("#tags > div").length;
+        console.log();
+        tagId = 'tag' +  index;
+        var template = '<div class="row" id="'+ tagId +'"><div class="col-md-10"><input name="tags[]" class="form-control tags-input"></div><div class="col-md-2"><div onclick="deleteTag(\''+tagId+'\')" class="btn btn-primary">Delete</div></div></div>'
+        tagContainer.append(template);
+    }
+
+    function deleteTag(tag) {
+        console.log('DELETE TAGS');
+        $( "#"+tag ).remove();
+    }
+</script>

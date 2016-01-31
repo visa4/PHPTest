@@ -1,0 +1,15 @@
+<?php if (count($this->tags)) : ?>
+    <?php foreach ($this->tags as $key => $tag) : ?>
+        <?php $tagId = 'tag' . ($key +1); ?>
+        <div class="row" id="<?= $tagId ?>">
+            <div class="col-md-10">
+                <input name="tags[]" value="<?= is_object($tag) ? $tag->name : $tag; ?>" class="form-control tags-input">
+                <?php if (is_string($tag) && empty($tag)) :?>
+                    <div class="alert alert-danger" role="alert">Value is required and can't be empty</div>
+                <?php endif; ?>
+            </div><div class="col-md-2">
+                <div onclick="deleteTag('<?= $tagId ?>')" class="btn btn-primary">Delete</div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>

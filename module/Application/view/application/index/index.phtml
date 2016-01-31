@@ -1,0 +1,34 @@
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="col-md-6">
+        <strong>List products</strong>
+    </div>
+    <div class="col-md-6 text-right ">
+        <strong><a href="<?php echo $this->url('product/create'); ?>">Create product</a></strong>
+    </div>
+</div>
+<?php if (!$this->product) : ?>
+<table class="table table-striped">
+    <thead> 
+        <tr> 
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr> 
+    </thead>
+    <?php foreach ($this->products as $key => $product) : ?>
+        <tr>
+            <td><img src="<?= $this->url('product/image', ['product_id' =>$product->id], ['query' => ['rendition' => 'thumb']] ); ?>" class="img-circle" style="height: 30px; width: 30px;"></td>
+            <td><?= $product->name; ?></td>
+            <td><?= $product->description; ?></td>
+            <td><a href="<?= $this->url('product/edit', ['product_id' => $product->id]); ?>">Update</a> <a href="<?= $this->url('product/delete', ['product_id' => $product->id]); ?>">Delete</a></td>
+        </tr>
+    <?php endforeach;?>
+</table>
+<?php else : ?>
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-md-12">
+            <strong>No products<a href="<?php echo $this->url('product/create'); ?>"> Create one</a></strong>
+        </div>
+    </div>
+<?php endif;
